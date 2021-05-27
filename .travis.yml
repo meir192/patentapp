@@ -6,4 +6,17 @@ before_install:
   - docker build -t meir192/patentapp -f Dockerfile.dev .
 
 script:
-  -  - docker run -e CI=true meir192/patentapp npm run test
+  - docker run -e CI=true meir192/patentapp npm run test
+
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-2"
+  app: "patentapp"
+  env: "Patentapp-env"
+  bucket_name: "elasticbeanstalk-us-east-2-508056374014"
+  bucket_path: "patentapp"
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
+
